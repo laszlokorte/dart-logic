@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Logical Formula Parser - Home</title>
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <link rel="shortcut icon" href="favicon.ico"/>
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="index.html">Logical Formula Parser</a>
+            <ul class="nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="about.html">About</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <noscript>
+          <div class="alert">
+            <strong>Javascript</strong> muss in deinem Browser aktiviert sein,
+            damit du diese Seite nutzen kannst.
+          </div>
+        </noscript>
+        <div class="dart-only" style="display: none;">
+        <p>
+          <button class="btn btn-small pull-right" type="button" data-toggle="#help-box">
+            <i class="icon-info-sign"></i>Hilfe
+          </button>
+        </p>
+        <div class="well state-hidden" id="help-box">
+          <dl>
+            <dt>Klammerung</dt>
+            <dd>
+              (...) und [...]
+            </dd>
+
+            <dt>Satzbuchstaben und Prädikatbuchstaben</dt>
+            <dd>
+              G, H, J, P, Q, R, S, T und P1, P2, P3... und G1, G2, G3...
+            </dd>
+
+            <dt>Namensbuchstaben</dt>
+            <dd>
+              m, n und m1, m2, m3...
+            </dd>
+
+            <dt>Operatoren</dt>
+            <dd>
+              <ul>
+                <li><span class="badge" title="Logisches Und">&</span> Logisches Und</li>
+                <li><span class="badge" title="Logisches inklusives Oder">v</span> Logisches inklusives Oder</li>
+                <li><span class="badge" title="Logische Subjunktion">-></span> Logische Subjunktion</li>
+                <li><span class="badge" title="Logisches Nicht">!</span> Logisches Nicht</li>
+              </ul>
+            </dd>
+
+            <dt>Argumentschema-Zeichen</dt>
+            <dd>
+              <ul>
+                <li><span class="badge" title="Komma">,</span> Premissenseparator</li>
+                <li><span class="badge" title="Ergo">::</span> Ergo</li>
+              </ul>
+
+            </dd>
+
+            <dt>Konstanten</dt>
+            <dd>
+              <ul>
+                <li><span class="badge" title="Wahr/Top">W</span> Wahr</li>
+                <li><span class="badge" title="Falsch/Bottom">F</span> Falsch</li>
+              </ul>
+            </dd>
+
+            <dt>Quantoren</dt>
+            <dd>
+              <ul>
+                <li><span class="badge" title="Alquantor">A</span> Alquantor</li>
+                <li><span class="badge" title="Existanzquantor">E</span> Existenzquantor</li>
+              </ul>
+            </dd>
+
+            <dt>Quantorgebundene Variablen</dt>
+            <dd>
+              x, y, z und x1, x2, x3...
+            </dd>
+
+          </dl>
+        </div>
+        <p>
+          <label class="checkbox">
+            <input type="checkbox" id="force_parentheses"/>
+            Eindeutigkeit der Klammerung verlangen.
+          </label>
+        </p>
+        </div>
+        <div class="input-container">
+          <textarea placeholder="Loading..." autofocus disabled type="text" id="formel_input" class="input-container-field"></textarea>
+          <div id="error_overlay" class="error-overlay"></div>
+        </div>
+        <p id="formel_error" class="alert alert-error state-hidden"></p>
+
+        <div id="result-container" class="state-hidden">
+          <div class="row">
+            <div class="span12">
+              <h3>Ergebnis</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="span4">
+              <h4>Vollständig Geklammert</h4>
+              <p id="formel_result"></p>
+            </div>
+
+            <div class="span4">
+              <h4>Mit Unicode-Operatoren</h4>
+              <p id="formel_result_unicode"></p>
+            </div>
+
+            <div class="span4">
+              <h4>Propositionen <small>(junktorenlogisch)</small></h4>
+              <p id="formel_terminals"></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="offset8 span4">
+              <h4>Prädikate <small>(quantorenlogisch)</small></h4>
+              <p id="formel_predicates"></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="offset8 span4">
+              <h4>Namen <small>(quantorenlogisch)</small></h4>
+              <p id="formel_names"></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="span12">
+              <h4>Wahrheitstafel <small>(junktorenlogisch)</small></h4>
+              <div class="alert alert-info" id="performance-warning">
+              <h4>Die Wahrheitstafel ist sehr groß.</h4>
+              <p>
+              Es kann einen Moment dauern sie zu generieren.<br>
+              </p>
+              <p>
+                <span class="action action-generate-table">
+                  Klicke hier, wenn du die Wahrheitstafel sehen möchtest.
+                </span>
+              </p>
+              </div>
+              <div id="boolean_table" class="asci-container well"></div>
+            </div>
+          </div>
+          <div class="row">
+          <div class="span12">
+            <h2>Operatorbaum</h2>
+            <div id="tree">
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" >
+                <g class="root"></g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        </div>
+
+      </div>
+
+      <footer class="footer">
+        <div class="container">
+          <p>
+            written by <a href="//www.laszlokorte.de">Laszlo Korte</a>,
+            written in <a href="//www.dartlang.org">Dart</a>,
+            styled by <a href="//twitter.github.io/bootstrap/">Bootstrap</a>,
+            graph painted with <a href="//d3js.org/">D3</a>
+          </p>
+        </div>
+      </footer>
+    </div>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="application/dart" src="index.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>

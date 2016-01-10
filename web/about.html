@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Logical Formula Parser - About</title>
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1" />
+      <link rel="shortcut icon" href="favicon.ico"/>
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="index.html">Logical Formula Parser</a>
+          <ul class="nav">
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="#">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h1>About</h1>
+
+      <p>
+        Ich habe diesen Formelparser geschrieben, um ein wenig mit <a href="//www.dartlang.org">Dart</a> herum zu spielen.
+      </p>
+      <p>
+        Zum parsen wird eine Abwandlung des <a href="http://en.wikipedia.org/wiki/Shunting-yard_algorithm">Shunting Yard Algorythmus</a> verwendet.
+      </p>
+      <p>
+        Die Auswahl der Operatoren beruht auf der Vorlesung "Einführung in die Logik und Argumentationstheorie" von <a href="http://www.philosophie.uni-hamburg.de/Team/behboud.html">Dr. Ali Behboud</a>.
+      </p>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p>
+          written by <a href="//www.laszlokorte.de">Laszlo Korte</a>,
+          written in <a href="//www.dartlang.org">Dart</a>,
+          styled by <a href="//twitter.github.io/bootstrap/">Bootstrap</a>,
+          graph painted with <a href="//d3js.org/">D3</a>
+        </p>
+      </div>
+    </footer>
+    <script type="application/dart" src="about.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>
